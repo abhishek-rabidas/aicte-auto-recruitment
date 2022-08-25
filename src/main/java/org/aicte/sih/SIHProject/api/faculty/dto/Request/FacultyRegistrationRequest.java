@@ -17,4 +17,6 @@ public class FacultyRegistrationRequest {
     private String dateOfBirth;
     private String subjects;
     private Long collegeId;
+    private boolean immediateJoin;
+    private boolean available;
 }

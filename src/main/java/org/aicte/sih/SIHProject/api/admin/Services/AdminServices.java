@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -33,15 +34,21 @@ public class AdminServices {
         List<FutureReadyFaculty> response = new ArrayList<>();
 
         for (Faculty faculty : retiringFaculties) {
-            List<Faculty> shortlistedFaculties = new ArrayList<>();
+            HashSet<Faculty> shortlistedFaculties = new HashSet<>();
             String[] subjects = faculty.getSubjects().split(",");
+
             for (String subject:subjects) {
-                shortlistedFaculties.addAll(facultyRepository.findAllBySubjectsLike(subject));
+                shortlistedFaculties.addAll(facultyRepository.findAllBySubjectsLike(subject, faculty.getId(), false));
             }
+
             FutureReadyFaculty futureReadyFaculty = new FutureReadyFaculty();
             futureReadyFaculty.setCollege(faculty.getAssociatedCollege());
-            futureReadyFaculty.setRecommendedFaculties(shortlistedFaculties);
-            response.add(futureReadyFaculty);
+
+            if (!shortlistedFaculties.isEmpty())
+                futureReadyFaculty.setRecommendedFaculties(new ArrayList<>(shortlistedFaculties));
+
+            if(!(futureReadyFaculty.getRecommendedFaculties() == null || futureReadyFaculty.getCollege() == null))
+                response.add(futureReadyFaculty);
         }
         return response;
     }

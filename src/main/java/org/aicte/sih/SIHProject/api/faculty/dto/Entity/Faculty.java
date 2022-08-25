@@ -3,11 +3,10 @@ package org.aicte.sih.SIHProject.api.faculty.dto.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.aicte.sih.SIHProject.api.college.dto.entity.College;
+import org.aicte.sih.SIHProject.api.faculty.dto.commons.FacultyType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -29,7 +28,10 @@ public class Faculty extends AbstractPersistable<Long> {
     private Date dateOfBirth;
     private Date dateOfRetirement;
     private String subjects;
-
     @OneToOne
     private College associatedCollege;
+    private boolean immediateJoin;
+    private boolean isAvailable;
+    @Enumerated(EnumType.STRING)
+    private FacultyType facultyType;
 }

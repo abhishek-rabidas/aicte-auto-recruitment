@@ -7,12 +7,10 @@ import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
 import org.aicte.sih.SIHProject.api.faculty.dto.Request.FacultyRegistrationRequest;
 import org.aicte.sih.SIHProject.emailing.EmailServices;
 import org.aicte.sih.SIHProject.utils.DateFormatter;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Service
@@ -48,6 +46,8 @@ public class FacultyServices {
         faculty.setDateOfRetirement(getRetirementDate(faculty.getDateOfBirth()));
         if(facultyRegistrationRequest.getCollegeId() != null)
             faculty.setAssociatedCollege(collegeRepository.findOneById(facultyRegistrationRequest.getCollegeId()));
+        faculty.setImmediateJoin(facultyRegistrationRequest.isImmediateJoin());
+        faculty.setAvailable(facultyRegistrationRequest.isAvailable());
         try {
             emailServices.sendFacultyRegistrationSuccessfulEmail(faculty);
         } catch (Exception ex) {
