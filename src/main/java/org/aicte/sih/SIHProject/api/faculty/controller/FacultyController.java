@@ -11,7 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 @RestController
-@RequestMapping("/api/v2/")
+@RequestMapping("/api/v2/faculty")
 @CrossOrigin
 public class FacultyController {
 

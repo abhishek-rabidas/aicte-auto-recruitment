@@ -6,6 +6,7 @@ import lombok.Getter;
 public class CollegeRegistrationRequest {
     private String name;
     private String uin;
+    private String password;
     private String aicteAffiliationNumber;
     private String universityRegistrationNumber;
     private String city;

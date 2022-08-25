@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 public class College extends AbstractPersistable<Long> {
     private String name;
     private String uin;
+    private String password;
     private String aicteAffiliationNumber;
     private String universityRegistrationNumber;
     private String city;

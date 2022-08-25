@@ -1,5 +1,6 @@
 package org.aicte.sih.SIHProject.api.faculty.services;
 
+import org.aicte.sih.SIHProject.api.college.dao.CollegeRepository;
 import org.aicte.sih.SIHProject.api.faculty.exception.FacultyException;
 import org.aicte.sih.SIHProject.api.faculty.dao.FacultyRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
@@ -18,7 +19,10 @@ import java.util.Date;
 public class FacultyServices {
 
     @Autowired
-    FacultyRepository facultyRepository;
+    private FacultyRepository facultyRepository;
+
+    @Autowired
+    private CollegeRepository collegeRepository;
 
     @Autowired
     private EmailServices emailServices;
@@ -35,11 +39,15 @@ public class FacultyServices {
         faculty.setCity(facultyRegistrationRequest.getCity());
         faculty.setState(facultyRegistrationRequest.getState());
         faculty.setPinCode(facultyRegistrationRequest.getPinCode());
+        faculty.setAadharNumber(facultyRegistrationRequest.getAadharNumber());
         faculty.setPhoneNumber(facultyRegistrationRequest.getPhoneNumber());
         faculty.setEmailAddress(facultyRegistrationRequest.getEmailAddress());
         faculty.setDescription(facultyRegistrationRequest.getDescription());
+        faculty.setSubjects(facultyRegistrationRequest.getSubjects());
         faculty.setDateOfBirth(DateFormatter.parseDateString(facultyRegistrationRequest.getDateOfBirth(), "dd/MM/yyyy"));
         faculty.setDateOfRetirement(getRetirementDate(faculty.getDateOfBirth()));
+        if(facultyRegistrationRequest.getCollegeId() != null)
+            faculty.setAssociatedCollege(collegeRepository.findOneById(facultyRegistrationRequest.getCollegeId()));
         try {
             emailServices.sendFacultyRegistrationSuccessfulEmail(faculty);
         } catch (Exception ex) {

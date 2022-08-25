@@ -10,8 +10,11 @@ public class FacultyRegistrationRequest {
     private String city;
     private String state;
     private int pinCode;
+    private String aadharNumber;
     private String phoneNumber;
     private String emailAddress;
     private String description;
     private String dateOfBirth;
+    private String subjects;
+    private Long collegeId;
 }
