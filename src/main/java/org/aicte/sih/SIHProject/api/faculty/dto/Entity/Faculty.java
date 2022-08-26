@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.aicte.sih.SIHProject.api.college.dto.entity.College;
 import org.aicte.sih.SIHProject.api.faculty.dto.commons.FacultyType;
+import org.aicte.sih.SIHProject.api.faculty.dto.commons.Stream;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -28,6 +29,8 @@ public class Faculty extends AbstractPersistable<Long> {
     private Date dateOfBirth;
     private Date dateOfRetirement;
     private Date dateOfLeaving;
+    @Enumerated(EnumType.STRING)
+    private Stream stream;
     private String subjects;
     @OneToOne
     private College associatedCollege;

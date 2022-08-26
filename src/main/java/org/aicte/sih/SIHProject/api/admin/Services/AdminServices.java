@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <h1>AICTE Services</h1>
@@ -33,8 +35,18 @@ public class AdminServices {
     public List<Faculty> getRetiringFaculties(Long id) {
         List<Faculty> result = new ArrayList<>();
         result.addAll(facultyRepository.getFutureRetiredFaculties(id)); //retiring faculties
-        result.addAll(collegeVacancyRepository.findAllFacultyByCollege(collegeRepository.findOneById(id))); //leaving faculties
+        collegeVacancyRepository.findAllByCollege(collegeRepository.findOneById(id)).stream().map(collegeVacancyTable -> {
+            return result.add(collegeVacancyTable.getFaculty());
+        }).collect(Collectors.toList()); //leaving faculties
         return result;
+    }
+
+    public List<Faculty> getReplacementFaculties(Long id) {
+        Faculty leavingFaculty = facultyRepository.findOneById(id);
+        String stream = leavingFaculty.getStream().toString();
+        String facultyType = leavingFaculty.getFacultyType().toString();
+
+        return facultyRepository.findAllBySameStream(stream, id, facultyType);
     }
 
 }

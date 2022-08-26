@@ -15,9 +15,7 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
     @Query(value = "SELECT * FROM faculty WHERE MONTH(date_of_retirement) = (SELECT MONTH(NOW())) + 3 AND faculty.associated_college_id = :id", nativeQuery = true)
     List<Faculty> getFutureRetiredFaculties(@Param("id") Long id);
 
-    @Query(value = "SELECT * FROM faculty WHERE subjects LIKE %:subject% AND faculty.id != :id AND faculty.is_available = true AND faculty.immediate_join = " +
-            ":immediateJoin", nativeQuery = true)
-    List<Faculty> findAllBySubjectsLike(@Param("subject") String subject, @Param("id") Long id, @Param("immediateJoin") boolean immediateJoin);
-
-    //List<Faculty> findAllBySubjectsLike(String subject);
+    @Query(value = "SELECT * FROM faculty WHERE faculty.stream = :stream AND faculty.id != :id AND faculty.is_available = true AND faculty.faculty_type = :facultyType"
+            , nativeQuery = true)
+    List<Faculty> findAllBySameStream(@Param("stream") String stream, @Param("id") Long id, @Param("facultyType") String facultyType);
 }

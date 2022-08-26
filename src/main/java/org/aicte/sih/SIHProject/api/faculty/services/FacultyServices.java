@@ -2,6 +2,7 @@ package org.aicte.sih.SIHProject.api.faculty.services;
 
 import org.aicte.sih.SIHProject.api.college.dao.CollegeRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.commons.FacultyType;
+import org.aicte.sih.SIHProject.api.faculty.dto.commons.Stream;
 import org.aicte.sih.SIHProject.api.faculty.exception.FacultyException;
 import org.aicte.sih.SIHProject.api.faculty.dao.FacultyRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
@@ -42,6 +43,25 @@ public class FacultyServices {
         faculty.setPhoneNumber(facultyRegistrationRequest.getPhoneNumber());
         faculty.setEmailAddress(facultyRegistrationRequest.getEmailAddress());
         faculty.setDescription(facultyRegistrationRequest.getDescription());
+        switch (facultyRegistrationRequest.getStream()) {
+            case "CSE" :
+                faculty.setStream(Stream.CSE);
+                break;
+            case "ECE"    :
+                faculty.setStream(Stream.ECE);
+                break;
+            case "EEE" :
+                faculty.setStream(Stream.EEE);
+                break;
+            case "MECH" :
+                faculty.setStream(Stream.MECH);
+                break;
+            case "CIVIL":
+                faculty.setStream(Stream.CIVIL);
+                break;
+            default:
+                throw new FacultyException("Invalid Stream Entered");
+        }
         faculty.setSubjects(facultyRegistrationRequest.getSubjects());
         faculty.setDateOfBirth(DateFormatter.parseDateString(facultyRegistrationRequest.getDateOfBirth(), "dd/MM/yyyy"));
         faculty.setDateOfRetirement(getRetirementDate(faculty.getDateOfBirth()));

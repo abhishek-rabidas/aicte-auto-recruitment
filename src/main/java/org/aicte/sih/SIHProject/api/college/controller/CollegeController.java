@@ -62,7 +62,7 @@ public class CollegeController {
      * Immediate Joining Request
      */
 
-    @PostMapping("/getImmediateJoiningFaculties")
+    /*@PostMapping("/getImmediateJoiningFaculties")
     public ResponseEntity<APIResponse<ImmediateJoiningResponse>> immediateJoiningFaculty(@RequestBody FacultyLeavingRequest request) {
         APIResponse<ImmediateJoiningResponse> response = new APIResponse<>();
         try {
@@ -94,7 +94,7 @@ public class CollegeController {
             response.setMessage(e.getMessage());
             return ResponseEntity.internalServerError().body(response);
         }
-    }
+    }*/
 
     @PostMapping("/postVacancy")
     public ResponseEntity<APIResponse> postVacancyUpdate(@RequestBody FacultyLeavingRequest facultyLeavingRequest) {

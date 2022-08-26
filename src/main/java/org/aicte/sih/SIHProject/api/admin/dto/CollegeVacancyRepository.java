@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CollegeVacancyRepository extends JpaRepository<CollegeVacancyTable, Long> {
-    List<Faculty> findAllFacultyByCollege(College college);
+    List<CollegeVacancyTable> findAllByCollege(College college);
 }

@@ -74,7 +74,7 @@ public class CollegeServices {
         else throw new RuntimeException("Login Failed");
     }
 
-    public ImmediateJoiningResponse getImmediateJoiningFaculties(FacultyLeavingRequest request) {
+    /*public ImmediateJoiningResponse getImmediateJoiningFaculties(FacultyLeavingRequest request) {
         HashSet<Faculty> immediateFacultyList = new HashSet<>();
         HashSet<Faculty> permanentFacultyList = new HashSet<>();
 
@@ -102,7 +102,7 @@ public class CollegeServices {
             permanentFacultyList.addAll(facultyRepository.findAllBySubjectsLike(subject, leavingFaculty.getId(), false));
         }
         return new ArrayList<>(permanentFacultyList);
-    }
+    }*/
 
     public void postVacancyUpdate(FacultyLeavingRequest facultyLeavingRequest) {
         CollegeVacancyTable collegeVacancyTable = new CollegeVacancyTable();

@@ -16,6 +16,7 @@ public class FacultyRegistrationRequest {
     private String description;
     private String facultyType;
     private String dateOfBirth;
+    private String stream;
     private String subjects;
     private String collegeUin;
     private boolean immediateJoin;

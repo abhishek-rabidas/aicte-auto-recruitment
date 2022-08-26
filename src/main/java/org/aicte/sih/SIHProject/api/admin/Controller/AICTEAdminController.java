@@ -20,8 +20,8 @@ public class AICTEAdminController {
     @Autowired
     private AdminServices adminServices;
 
-    @GetMapping("/getRetiringFaculties/{collegeId}")
-    public ResponseEntity<APIResponse<List<Faculty>>> getRetiringFaculties(@PathVariable("collegeId") Long collegeId) {
+    @GetMapping("/getVacancies/{collegeId}")
+    public ResponseEntity<APIResponse<List<Faculty>>> getVacancies(@PathVariable("collegeId") Long collegeId) {
         APIResponse<List<Faculty>> response = new APIResponse<>();
         try {
             response.setData(adminServices.getRetiringFaculties(collegeId));
@@ -37,11 +37,11 @@ public class AICTEAdminController {
         }
     }
 
-/*    @GetMapping("/shortlistedFaculties")
-    public ResponseEntity<APIResponse<List<FutureReadyFaculty>>> getShortlistedFaculties() {
-        APIResponse<List<FutureReadyFaculty>> response = new APIResponse<>();
+    @GetMapping("/shortlistedFaculties/{id}")
+    public ResponseEntity<APIResponse<List<Faculty>>> getShortlistedFaculties(@PathVariable("id") Long id) {
+        APIResponse<List<Faculty>> response = new APIResponse<>();
         try {
-            response.setData(adminServices.getShortlistedFaculties());
+            response.setData(adminServices.getReplacementFaculties(id));
             return ResponseEntity.status(response.getStatusCode()).body(response);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             response.setStatusCode(e.getStatusCode().value());
@@ -52,5 +52,5 @@ public class AICTEAdminController {
             response.setMessage(e.getMessage());
             return ResponseEntity.internalServerError().body(response);
         }
-    }*/
+    }
 }
