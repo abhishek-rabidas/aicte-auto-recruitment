@@ -27,6 +27,7 @@ public class Faculty extends AbstractPersistable<Long> {
     private String description;
     private Date dateOfBirth;
     private Date dateOfRetirement;
+    private Date dateOfLeaving;
     private String subjects;
     @OneToOne
     private College associatedCollege;

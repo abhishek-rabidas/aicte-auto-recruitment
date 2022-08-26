@@ -1,6 +1,8 @@
 package org.aicte.sih.SIHProject.api.college.services;
 
 import org.aicte.sih.SIHProject.api.admin.Services.AdminServices;
+import org.aicte.sih.SIHProject.api.admin.dto.CollegeVacancyRepository;
+import org.aicte.sih.SIHProject.api.admin.dto.CollegeVacancyTable;
 import org.aicte.sih.SIHProject.api.college.Exceptions.CollegeExceptions;
 import org.aicte.sih.SIHProject.api.college.dao.CollegeRepository;
 import org.aicte.sih.SIHProject.api.college.dto.entity.College;
@@ -11,14 +13,12 @@ import org.aicte.sih.SIHProject.api.faculty.dao.FacultyRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
 import org.aicte.sih.SIHProject.api.faculty.dto.Request.FacultyLeavingRequest;
 import org.aicte.sih.SIHProject.emailing.EmailServices;
+import org.aicte.sih.SIHProject.utils.DateFormatter;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 public class CollegeServices {
@@ -31,6 +31,9 @@ public class CollegeServices {
 
     @Autowired
     private AdminServices adminServices;
+
+    @Autowired
+    private CollegeVacancyRepository collegeVacancyRepository;
 
     @Autowired
     private EmailServices emailServices;
@@ -99,5 +102,16 @@ public class CollegeServices {
             permanentFacultyList.addAll(facultyRepository.findAllBySubjectsLike(subject, leavingFaculty.getId(), false));
         }
         return new ArrayList<>(permanentFacultyList);
+    }
+
+    public void postVacancyUpdate(FacultyLeavingRequest facultyLeavingRequest) {
+        CollegeVacancyTable collegeVacancyTable = new CollegeVacancyTable();
+        collegeVacancyTable.setCollege(collegeRepository.findOneById(facultyLeavingRequest.getCollegeId()));
+        Date leavingDate = DateFormatter.parseDateString(facultyLeavingRequest.getDateOfLeaving(), "dd/MM/YYYY");
+        Faculty faculty = facultyRepository.findOneById(facultyLeavingRequest.getFacultyId());
+        faculty.setDateOfLeaving(leavingDate);
+        collegeVacancyTable.setFaculty(facultyRepository.save(faculty));
+        collegeVacancyTable.setLeavingDate(leavingDate);
+        collegeVacancyRepository.save(collegeVacancyTable);
     }
 }

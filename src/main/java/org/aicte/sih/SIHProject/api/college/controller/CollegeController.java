@@ -95,4 +95,21 @@ public class CollegeController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
+
+    @PostMapping("/postVacancy")
+    public ResponseEntity<APIResponse> postVacancyUpdate(@RequestBody FacultyLeavingRequest facultyLeavingRequest) {
+        APIResponse response = new APIResponse<>();
+        try {
+            collegeServices.postVacancyUpdate(facultyLeavingRequest);
+            return ResponseEntity.status(response.getStatusCode()).body(response);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            response.setStatusCode(e.getStatusCode().value());
+            response.setMessage(e.getStatusText());
+            return ResponseEntity.internalServerError().body(response);
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
 }

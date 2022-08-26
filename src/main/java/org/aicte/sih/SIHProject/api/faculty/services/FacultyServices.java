@@ -62,6 +62,7 @@ public class FacultyServices {
         }
         faculty.setImmediateJoin(facultyRegistrationRequest.isImmediateJoin());
         faculty.setAvailable(facultyRegistrationRequest.isAvailable());
+        faculty.setDateOfLeaving(faculty.getDateOfRetirement());
         try {
             emailServices.sendFacultyRegistrationSuccessfulEmail(faculty);
         } catch (Exception ex) {

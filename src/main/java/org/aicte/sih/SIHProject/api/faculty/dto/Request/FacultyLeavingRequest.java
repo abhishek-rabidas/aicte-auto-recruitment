@@ -8,4 +8,5 @@ import lombok.Setter;
 public class FacultyLeavingRequest {
     private Long facultyId;
     private Long collegeId;
+    private String dateOfLeaving;
 }
