@@ -24,11 +24,11 @@ public class AdminServices {
     @Autowired
     private FacultyRepository facultyRepository;
 
-    public List<Faculty> getRetiringFaculties() {
-        return facultyRepository.getFutureRetiredFaculties();
+    public List<Faculty> getRetiringFaculties(Long id) {
+        return facultyRepository.getFutureRetiredFaculties(id);
     }
 
-    public List<FutureReadyFaculty> getShortlistedFaculties() {
+/*    public List<FutureReadyFaculty> getShortlistedFaculties() {
         List<Faculty> retiringFaculties = facultyRepository.getFutureRetiredFaculties();
 
         List<FutureReadyFaculty> response = new ArrayList<>();
@@ -51,5 +51,5 @@ public class AdminServices {
                 response.add(futureReadyFaculty);
         }
         return response;
-    }
+    }*/
 }

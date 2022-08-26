@@ -14,9 +14,10 @@ public class FacultyRegistrationRequest {
     private String phoneNumber;
     private String emailAddress;
     private String description;
+    private String facultyType;
     private String dateOfBirth;
     private String subjects;
-    private Long collegeId;
+    private String collegeUin;
     private boolean immediateJoin;
     private boolean available;
 }

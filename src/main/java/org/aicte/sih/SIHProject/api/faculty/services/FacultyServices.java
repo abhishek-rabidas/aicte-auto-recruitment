@@ -1,6 +1,7 @@
 package org.aicte.sih.SIHProject.api.faculty.services;
 
 import org.aicte.sih.SIHProject.api.college.dao.CollegeRepository;
+import org.aicte.sih.SIHProject.api.faculty.dto.commons.FacultyType;
 import org.aicte.sih.SIHProject.api.faculty.exception.FacultyException;
 import org.aicte.sih.SIHProject.api.faculty.dao.FacultyRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
@@ -44,8 +45,21 @@ public class FacultyServices {
         faculty.setSubjects(facultyRegistrationRequest.getSubjects());
         faculty.setDateOfBirth(DateFormatter.parseDateString(facultyRegistrationRequest.getDateOfBirth(), "dd/MM/yyyy"));
         faculty.setDateOfRetirement(getRetirementDate(faculty.getDateOfBirth()));
-        if(facultyRegistrationRequest.getCollegeId() != null)
-            faculty.setAssociatedCollege(collegeRepository.findOneById(facultyRegistrationRequest.getCollegeId()));
+        if(facultyRegistrationRequest.getCollegeUin() != null)
+            faculty.setAssociatedCollege(collegeRepository.findOneByUin(facultyRegistrationRequest.getCollegeUin()));
+        switch (facultyRegistrationRequest.getFacultyType()) {
+            case "PROFESSOR" :
+                faculty.setFacultyType(FacultyType.PROFESSOR);
+                break;
+            case "ASSISTANT_PROFESSOR":
+                faculty.setFacultyType(FacultyType.ASSISTANT_PROFESSOR);
+                break;
+            case "ASSOCIATE_PROFESSOR":
+                faculty.setFacultyType(FacultyType.ASSOCIATE_PROFESSOR);
+                break;
+            default:
+                faculty.setFacultyType(FacultyType.OTHER);
+        }
         faculty.setImmediateJoin(facultyRegistrationRequest.isImmediateJoin());
         faculty.setAvailable(facultyRegistrationRequest.isAvailable());
         try {

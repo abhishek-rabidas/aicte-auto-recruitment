@@ -6,10 +6,7 @@ import org.aicte.sih.SIHProject.api.faculty.dto.Response.FutureReadyFaculty;
 import org.aicte.sih.SIHProject.commons.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
@@ -17,16 +14,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v2/admin")
+@CrossOrigin
 public class AICTEAdminController {
 
     @Autowired
     private AdminServices adminServices;
 
-    @GetMapping("/getRetiringFaculties")
-    public ResponseEntity<APIResponse<List<Faculty>>> getRetiringFaculties() {
+    @GetMapping("/getRetiringFaculties/{collegeId}")
+    public ResponseEntity<APIResponse<List<Faculty>>> getRetiringFaculties(@PathVariable("collegeId") Long collegeId) {
         APIResponse<List<Faculty>> response = new APIResponse<>();
         try {
-            response.setData(adminServices.getRetiringFaculties());
+            response.setData(adminServices.getRetiringFaculties(collegeId));
             return ResponseEntity.status(response.getStatusCode()).body(response);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             response.setStatusCode(e.getStatusCode().value());
@@ -39,7 +37,7 @@ public class AICTEAdminController {
         }
     }
 
-    @GetMapping("/shortlistedFaculties")
+/*    @GetMapping("/shortlistedFaculties")
     public ResponseEntity<APIResponse<List<FutureReadyFaculty>>> getShortlistedFaculties() {
         APIResponse<List<FutureReadyFaculty>> response = new APIResponse<>();
         try {
@@ -54,5 +52,5 @@ public class AICTEAdminController {
             response.setMessage(e.getMessage());
             return ResponseEntity.internalServerError().body(response);
         }
-    }
+    }*/
 }

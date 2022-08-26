@@ -12,8 +12,8 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
     Long countByEmailAddress(String email);
 
-    @Query(value = "SELECT * FROM faculty WHERE MONTH(date_of_retirement) = (SELECT MONTH(NOW())) + 3", nativeQuery = true)
-    List<Faculty> getFutureRetiredFaculties();
+    @Query(value = "SELECT * FROM faculty WHERE MONTH(date_of_retirement) = (SELECT MONTH(NOW())) + 3 AND faculty.associated_college_id = :id", nativeQuery = true)
+    List<Faculty> getFutureRetiredFaculties(@Param("id") Long id);
 
     @Query(value = "SELECT * FROM faculty WHERE subjects LIKE %:subject% AND faculty.id != :id AND faculty.is_available = true AND faculty.immediate_join = " +
             ":immediateJoin", nativeQuery = true)

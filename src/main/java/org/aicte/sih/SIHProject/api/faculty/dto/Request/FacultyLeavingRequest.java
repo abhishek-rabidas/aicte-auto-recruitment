@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ImmediateFacultyJoiningRequest {
+public class FacultyLeavingRequest {
     private Long facultyId;
     private Long collegeId;
 }

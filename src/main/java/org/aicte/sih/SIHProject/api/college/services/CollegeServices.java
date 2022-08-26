@@ -4,12 +4,12 @@ import org.aicte.sih.SIHProject.api.admin.Services.AdminServices;
 import org.aicte.sih.SIHProject.api.college.Exceptions.CollegeExceptions;
 import org.aicte.sih.SIHProject.api.college.dao.CollegeRepository;
 import org.aicte.sih.SIHProject.api.college.dto.entity.College;
+import org.aicte.sih.SIHProject.api.college.dto.request.CollegeLoginRequest;
 import org.aicte.sih.SIHProject.api.college.dto.request.CollegeRegistrationRequest;
 import org.aicte.sih.SIHProject.api.college.dto.response.ImmediateJoiningResponse;
 import org.aicte.sih.SIHProject.api.faculty.dao.FacultyRepository;
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
-import org.aicte.sih.SIHProject.api.faculty.dto.Request.ImmediateFacultyJoiningRequest;
-import org.aicte.sih.SIHProject.api.faculty.dto.Response.FutureReadyFaculty;
+import org.aicte.sih.SIHProject.api.faculty.dto.Request.FacultyLeavingRequest;
 import org.aicte.sih.SIHProject.emailing.EmailServices;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,14 @@ public class CollegeServices {
         }
     }
 
-    public ImmediateJoiningResponse getImmediateJoiningFaculties(ImmediateFacultyJoiningRequest request) {
+    public Long loginCollege(CollegeLoginRequest collegeLoginRequest) {
+        College college = collegeRepository.findOneByUin(collegeLoginRequest.getCollegeUin());
+        if (college.getPassword().equals(collegeLoginRequest.getPassword()))
+            return college.getId();
+        else throw new RuntimeException("Login Failed");
+    }
+
+    public ImmediateJoiningResponse getImmediateJoiningFaculties(FacultyLeavingRequest request) {
         HashSet<Faculty> immediateFacultyList = new HashSet<>();
         HashSet<Faculty> permanentFacultyList = new HashSet<>();
 
@@ -80,5 +87,17 @@ public class CollegeServices {
         response.setPermanentFacultyList(new ArrayList<>(permanentFacultyList));
 
         return response;
+    }
+
+    public List<Faculty> getPermanentJoiningFaculties(FacultyLeavingRequest request) {
+        HashSet<Faculty> permanentFacultyList = new HashSet<>();
+
+        Faculty leavingFaculty = facultyRepository.findOneById(request.getFacultyId());
+        String[] subjects = leavingFaculty.getSubjects().split(",");
+
+        for (String subject : subjects) {
+            permanentFacultyList.addAll(facultyRepository.findAllBySubjectsLike(subject, leavingFaculty.getId(), false));
+        }
+        return new ArrayList<>(permanentFacultyList);
     }
 }

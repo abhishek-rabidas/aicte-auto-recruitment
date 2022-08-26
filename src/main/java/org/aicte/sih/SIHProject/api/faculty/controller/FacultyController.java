@@ -2,8 +2,6 @@ package org.aicte.sih.SIHProject.api.faculty.controller;
 
 import org.aicte.sih.SIHProject.api.faculty.dto.Entity.Faculty;
 import org.aicte.sih.SIHProject.api.faculty.dto.Request.FacultyRegistrationRequest;
-import org.aicte.sih.SIHProject.api.faculty.dto.Request.ImmediateFacultyJoiningRequest;
-import org.aicte.sih.SIHProject.api.faculty.dto.Response.FutureReadyFaculty;
 import org.aicte.sih.SIHProject.api.faculty.services.FacultyServices;
 import org.aicte.sih.SIHProject.commons.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v2/faculty")
