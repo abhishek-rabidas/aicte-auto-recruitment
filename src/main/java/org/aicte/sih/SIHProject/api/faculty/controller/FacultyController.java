@@ -34,4 +34,5 @@ public class FacultyController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
+
 }

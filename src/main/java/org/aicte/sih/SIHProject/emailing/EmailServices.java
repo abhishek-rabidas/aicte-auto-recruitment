@@ -15,11 +15,35 @@ public class EmailServices {
 
     public void sendCollegeRegistrationSuccessfulEmail(College college) {
         MessageEmail email = new MessageEmail();
-        email.setSubject("Registration Successful | Faculty Recruitment System");
+        email.setSubject("Registration Successful | SHIKSHAK SETU");
         email.setTo(Collections.singletonList(college.getEmail()));
-        String body = college.getName() + " has been successfully registered!\n " +
-                "College UIN: " + college.getUin();
-        email.setBody(body);
+        String message = "Dear College,\n" +
+                "Congratulations on your successful registration on our portal.  \n" +
+                "Hey! Now getting faculties and filling vacancy is as simple as a click. Our automated recommendation system will find the best replacement available from the entire country for your institute.\n\n" +
+                "College UIN: " + college.getUin() + "\n" +
+                "Best Regards,\n" +
+                "Team Shikshak Setu";
+
+        /*String body = college.getName() + " has been successfully registered!\n " +
+                "College UIN: " + college.getUin();*/
+        email.setBody(message);
+        email.setHtml(false);
+        smtpEmailSender.sendMessage(email);
+    }
+
+    public void sendShortlistedEmail(Faculty faculty, College college) {
+        MessageEmail email = new MessageEmail();
+        email.setSubject("Congratulations | SHIKSHAK SETU");
+        email.setTo(Collections.singletonList(faculty.getEmailAddress()));
+        String message = "Dear " + faculty.getFirstName() + " " + faculty.getLastName() + "\n" +
+                "Congratulations on being shortlisted for the teaching job post you applied for. We wish you all the best for the upcoming procedures.\n\n" +
+                "Teaching Post Details:- \n" +
+                "College Name: " + college.getName() + "\n" +
+                "Address: " + college.getCity() + ", " + college.getState() + "\n" +
+                "Contact Details: \n" +
+                "Email Address: " + college.getEmail() + "\n" +
+                "Phone: " + college.getPhone() + "\n";
+        email.setBody(message);
         email.setHtml(false);
         smtpEmailSender.sendMessage(email);
     }
@@ -35,9 +59,15 @@ public class EmailServices {
 
     public void sendFacultyRegistrationSuccessfulEmail(Faculty faculty) {
         MessageEmail email = new MessageEmail();
-        email.setSubject("Successfully Registered | Faculty Recruitment System");
+        email.setSubject("Successfully Registered | SHIKSHAK SETU");
         email.setTo(Collections.singletonList(faculty.getEmailAddress()));
-        String message = faculty.getFirstName() + " " + faculty.getLastName() + " has been successfully registered as a faculty";
+        String message ="Dear " + faculty.getFirstName() + " " + faculty.getLastName() + ",\n" +
+                "Congratulations on your successful registration on our portal.  \n" +
+                "Hey! Let’s take your career to greater height with Shikshak Setu. Don’t worry we are here to automate your hiring process. Now seat back and relax while we find the best opportunity for your career.\n" +
+                "On being selected you may expect a mail from us. \n" +
+                "Best Regards,\n" +
+                "Team Shikshak Setu";
+        //String message = faculty.getFirstName() + " " + faculty.getLastName() + " has been successfully registered as a faculty";
         email.setBody(message);
         email.setHtml(false);
         smtpEmailSender.sendMessage(email);

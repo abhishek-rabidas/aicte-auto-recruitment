@@ -114,4 +114,12 @@ public class CollegeServices {
         collegeVacancyTable.setLeavingDate(leavingDate);
         collegeVacancyRepository.save(collegeVacancyTable);
     }
+
+    public Faculty updateHiredFaculty(Long facultyId, Long collegeId) {
+        Faculty hiredFaculty = facultyRepository.findOneById(facultyId);
+        hiredFaculty.setAvailable(false);
+        hiredFaculty.setAssociatedCollege(collegeRepository.findOneById(collegeId));
+        emailServices.sendShortlistedEmail(hiredFaculty, collegeRepository.findOneById(collegeId));
+        return facultyRepository.save(hiredFaculty);
+    }
 }

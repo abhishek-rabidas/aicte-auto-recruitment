@@ -112,4 +112,22 @@ public class CollegeController {
             return ResponseEntity.internalServerError().body(response);
         }
     }
+
+    @PostMapping("/updateHiredFaculty/{facultyId}/{collegeId}")
+    public ResponseEntity<APIResponse<Faculty>> updateHiredFaculty(@PathVariable("facultyId") Long facultyId,
+                                                                   @PathVariable("collegeId") Long collegeId) {
+        APIResponse<Faculty> response = new APIResponse<>();
+        try {
+            response.setData(collegeServices.updateHiredFaculty(facultyId,collegeId));
+            return ResponseEntity.status(response.getStatusCode()).body(response);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            response.setStatusCode(e.getStatusCode().value());
+            response.setMessage(e.getStatusText());
+            return ResponseEntity.internalServerError().body(response);
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage(e.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
+    }
 }
